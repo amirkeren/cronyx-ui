@@ -112,10 +112,11 @@ class Screen extends Component{
         const trigger = this.state.currentDeleteTrigger;
         axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
         .then(res => {
-          let triggers = this.state.triggers;
+          let triggers = this.state.triggersCopy;
           const deleteItem = this.state.currentDeleteTrigger;
           const updateTriggers = triggers.filter(tr => tr.triggerKey.name !== deleteItem.triggerKey.name && tr.triggerKey.group !== deleteItem.triggerKey.group)
-          this.setState({ triggers: updateTriggers });
+          this.setState({ triggersCopy: updateTriggers });
+          //this.setState({ triggers: updateTriggers });
           this.setState({ currentDeleteTrigger: null });
         })
         .catch(res => {
