@@ -41,4 +41,5 @@
 
 .Button {
     height: 100px;
+    cursor: pointer;
 }
