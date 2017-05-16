@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import JSONTree from 'react-json-tree';
 import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
 import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
 import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg';
@@ -11,6 +12,7 @@ import {triggerInfo} from '../ajaxutils';
 import './style.css';
 
 import axios from 'axios';
+import _ from 'lodash';
 var querystring = require('querystring');
 
 
@@ -22,8 +24,11 @@ class Screen extends Component{
   constructor() {
     super();
 
+    this.handleFilterKeyUp = this.filterTriggers.bind(this, 'filterTriggersInput');
+
     this.state = {
-      triggers: []
+      triggers: [],
+      triggersCopy: []
     };
   }
 
@@ -67,10 +72,23 @@ class Screen extends Component{
       });
   }
 
+  filterTriggers(refName, e) {
+    var triggers = this.state.triggers;
+    var triggersCopyObj = this.state.triggersCopy;
+    var filterText = e.target.value;
+    if (filterText) {
+      triggersCopyObj = _.filter(triggers, function(o) { return o.triggerKey.name.includes(filterText) ||  o.triggerKey.group.includes(filterText) });
+    } else {
+      triggersCopyObj = triggers;
+    }
+    this.setState({ triggersCopy: triggersCopyObj });
+  }
+
   componentDidMount() {
     axios.get('triggers/all')
       .then(res => {
         this.setState({triggers: res.data});
+        this.setState({triggersCopy: res.data});
       });
   }
 
@@ -91,7 +109,7 @@ class Screen extends Component{
                     <h1 className="col-sm-3 triggers-list-header">Triggers List</h1>
                     <div className="offset-sm-4 col-sm-4">
                         <img src={searchIcon} alt="" className="search-icon"/>
-                        <input className="search-box" placeholder="type trigger name" />
+                        <input className="search-box" placeholder="type trigger name" onKeyUp={this.handleFilterKeyUp} ref="filterTriggersInput"/>
                     </div>
                 </div>
                 <div className="row table-wrapper no-gutters">
@@ -107,10 +125,10 @@ class Screen extends Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.triggers.map(trigger =>
-                            <tr onClick={() => this.openInfoModal(trigger)}>
-                                  <td className="large-cell">
-                                    {trigger.triggerKey.name}
+                        {this.state.triggersCopy.map(trigger =>
+                            <tr>
+                                  <td className="large-cell name-cell" onClick={() => this.openInfoModal(trigger)}>
+                                    {`${trigger.triggerKey.name}.${trigger.triggerKey.group}`}
                                   </td>
                                   <td >
                                     {this.getDate(trigger.triggerData._PREVIOUS_FIRING_TIME)}
@@ -144,9 +162,8 @@ class Screen extends Component{
                                 primary: true,
                                 onClick: () => this.setState({ currentTrigger: null })
                             }]}>
-                        <pre className="trigger-info-pre">
-                            {JSON.stringify(this.state.currentTriggerInfo, null, 4)}
-                        </pre>
+                        <JSONTree data={this.state.currentTriggerInfo}
+                            theme={{tree: { backgroundColor: 'transparent' }}}/>
                     </Modal>
                 : null}
             </div>

@@ -10,7 +10,9 @@
   "devDependencies": {
     "axios": "^0.16.1",
     "bootstrap": "^4.0.0-alpha.6",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "react-json-tree": "^0.10.9",
     "react-scripts": "0.9.5"
   },
   "scripts": {
