@@ -79,7 +79,7 @@ class Screen extends Component{
     if (filterText) {
       triggersCopyObj = _.filter(triggers, function(o) {
         let triggerFullName = o.triggerKey.group + "." + o.triggerKey.name;
-        return triggerFullName.includes(filterText);
+        return triggerFullName.toLowerCase().includes(filterText.toLowerCase());
       });
     } else {
       triggersCopyObj = triggers;
