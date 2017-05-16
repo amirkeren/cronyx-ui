@@ -44,18 +44,14 @@ class Screen extends Component{
                 </div>
                 <div className="row table-wrapper no-gutters">
 
-                {/*}<ul>
-                  {this.state.triggers.map(trigger =>
-                    <li key={trigger.triggerKey.name}>{trigger.triggerKey.name}</li>
-                  )}
-                </ul>*/}
+
 
                 <table className="table">
                     <thead>
                         <tr>
-                            <th >Trigger Name </th>
-                            <th >Previous Run</th>
-                            <th >Next Run</th>
+                            <th className="large-cell">Trigger Name </th>
+                            <th>Previous Run</th>
+                            <th>Next Run</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -63,7 +59,7 @@ class Screen extends Component{
                     <tbody>
                         {this.state.triggers.map(trigger =>
                             <tr>
-                                  <td>
+                                  <td className="large-cell">
                                     {trigger.triggerKey.name}
                                   </td>
                                   <td >
@@ -75,8 +71,8 @@ class Screen extends Component{
                                   <td >
                                       {trigger.triggerData._TRIGGER_STATUS}
                                   </td>
-                                  <td >
-                                      delete
+                                  <td>
+                                      d
                                   </td>
                             </tr>
                         )}
