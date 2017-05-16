@@ -98,10 +98,10 @@ class Screen extends Component{
 
                                   <td >
                                       {trigger.triggerData._TRIGGER_STATUS === "ACTIVE" &&
-                                        <img src={pauseIcon} alt="" className="pause-icon" onClick={() => this.pauseTrigger(trigger)}/>
+                                        <img src={pauseIcon} alt="" className="pause-icon status-btn" onClick={() => this.pauseTrigger(trigger)}/>
                                       }
                                       {trigger.triggerData._TRIGGER_STATUS === "PAUSED" &&
-                                        <img src={playIcon} alt="" className="play-icon" onClick={() => this.resumeTrigger(trigger)}/>
+                                        <img src={playIcon} alt="" className="play-icon status-btn" onClick={() => this.resumeTrigger(trigger)}/>
                                       }
                                   </td>
                                   <td>
