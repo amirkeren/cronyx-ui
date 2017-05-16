@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import JSONTree from 'react-json-tree';
 import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
-import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
-import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg';
 import deleteIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-delete.svg';
 
 import moment from 'moment';
 import Modal from '../Modal';
 import {triggerInfo} from '../ajaxutils';
+import Switch from 'react-toggle-switch';
 
 import './style.css';
+import "../../node_modules/react-toggle-switch/dist/css/switch.min.css"
 
 import axios from 'axios';
+import _ from 'lodash';
 var querystring = require('querystring');
 
 
@@ -23,8 +24,11 @@ class Screen extends Component{
   constructor() {
     super();
 
+    this.handleFilterKeyUp = this.filterTriggers.bind(this, 'filterTriggersInput');
+
     this.state = {
-      triggers: []
+      triggers: [],
+      triggersCopy: []
     };
   }
 
@@ -68,10 +72,27 @@ class Screen extends Component{
       });
   }
 
+  filterTriggers(refName, e) {
+    const triggers = this.state.triggers;
+    const filterText = e.target.value;
+    let triggersCopyObj = this.state.triggersCopy;
+    if (filterText) {
+      triggersCopyObj = _.filter(triggers, function(o) {
+        let triggerFullName = o.triggerKey.group + "." + o.triggerKey.name;
+        return triggerFullName.includes(filterText);
+      });
+    } else {
+      triggersCopyObj = triggers;
+    }
+    this.setState({ triggersCopy: triggersCopyObj });
+  }
+
   componentDidMount() {
     axios.get('triggers/all')
       .then(res => {
-        this.setState({triggers: res.data});
+        const sortedTriggers = _.sortBy(res.data, ['triggerKey.group', 'triggerKey.name']);
+        this.setState({triggers: sortedTriggers});
+        this.setState({triggersCopy: sortedTriggers});
       });
   }
 
@@ -99,7 +120,7 @@ class Screen extends Component{
                     <h1 className="col-sm-3 triggers-list-header">Triggers List</h1>
                     <div className="offset-sm-4 col-sm-4">
                         <img src={searchIcon} alt="" className="search-icon"/>
-                        <input className="search-box" placeholder="type trigger name" />
+                        <input className="search-box" placeholder="type trigger name" onKeyUp={this.handleFilterKeyUp} ref="filterTriggersInput"/>
                     </div>
                 </div>
                 <div className="row table-wrapper no-gutters">
@@ -115,10 +136,10 @@ class Screen extends Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.triggers.map(trigger =>
+                        {this.state.triggersCopy.map(trigger =>
                             <tr>
                                   <td className="large-cell name-cell" onClick={() => this.openInfoModal(trigger)}>
-                                    {`${trigger.triggerKey.name}.${trigger.triggerKey.group}`}
+                                    {`${trigger.triggerKey.group}.${trigger.triggerKey.name}`}
                                   </td>
                                   <td >
                                     {this.getDate(trigger.triggerData._PREVIOUS_FIRING_TIME)}
@@ -129,10 +150,14 @@ class Screen extends Component{
 
                                   <td >
                                       {trigger.triggerData._TRIGGER_STATUS === "ACTIVE" &&
-                                        <img src={pauseIcon} alt="" className="pause-icon status-btn" onClick={() => this.pauseTrigger(trigger)}/>
+                                        <div>
+                                          <Switch on={true} onClick={() => this.pauseTrigger(trigger)}/>
+                                        </div>
                                       }
                                       {trigger.triggerData._TRIGGER_STATUS === "PAUSED" &&
-                                        <img src={playIcon} alt="" className="play-icon status-btn" onClick={() => this.resumeTrigger(trigger)}/>
+                                        <div>
+                                          <Switch onClick={() => this.resumeTrigger(trigger)}/>
+                                        </div>
                                       }
                                   </td>
                                   <td>
