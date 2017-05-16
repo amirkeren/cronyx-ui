@@ -3,6 +3,7 @@
     font-size: 14px;
     font-weight: bold;
     color: #d49d01;
+    padding-bottom: 21px;
 }
 
 .SidebarInactiveLabel {
@@ -10,8 +11,19 @@
     font-size: 14px;
     font-weight: bold;
     color: #b4b4b4;
+    padding-bottom: 21px;
 }
 
 .SidebarIcon {
+    height: 24px;
+    width: 24px;
     margin: 30px 10px 10px;
+}
+
+.ActiveButton {
+    background-color: #2c3437;
+}
+
+.Button {
+    height: 100px;
 }
