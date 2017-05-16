@@ -1,0 +1,16 @@
+.Header {
+    background-color: #f2f2f2;
+    height: 48px;
+    position: relative;
+    text-align: left;
+}
+
+.Logo {
+    margin-left: 10px;
+    margin-top: 7px;
+}
+
+.Line {
+    background-image: linear-gradient(to right, #d39c00, #fec41b);
+    height: 2px;
+}
