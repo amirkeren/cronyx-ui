@@ -3,7 +3,31 @@ import searchIcon from '../../assets/svg/assets_History_2017-05-16/ic-search.svg
 
 import './style.css';
 
+import axios from 'axios';
+
+var querystring = require('querystring');
+
+axios.defaults.baseURL = 'manage/scheduling/';
+
+
+
 class Screen extends Component{
+  constructor() {
+    super();
+
+    this.state = {
+      triggers: []
+    };
+  }
+
+
+  componentDidMount() {
+    axios.get('triggers/all')
+      .then(res => {
+        this.setState({triggers: res.data});
+      });
+}
+
     render() {
         return(
             <div className="main-screen-wrapper">
@@ -14,7 +38,34 @@ class Screen extends Component{
                         <input className="search-box" placeholder="type trigger name" />
                     </div>
                 </div>
-                <div className="row table-wrapper"></div>
+                <div className="row table-wrapper">
+
+                {/*}<ul>
+                  {this.state.triggers.map(trigger =>
+                    <li key={trigger.triggerKey.name}>{trigger.triggerKey.name}</li>
+                  )}
+                </ul>*/}
+
+                <table>
+                <thead>
+                  <th> trigger name </th>
+                  <th> status</th>
+                </thead>
+                <tbody>
+                {this.state.triggers.map(trigger =>
+                  <tr>
+                  <td>
+                    {trigger.triggerKey.name}
+                  </td>
+                  <td>
+                    {trigger.triggerData._TRIGGER_STATUS}
+                  </td>
+                  </tr>
+                )}
+
+                </tbody>
+                </table>
+                </div>
             </div>
         );
     }
