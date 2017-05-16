@@ -10,29 +10,19 @@ import './Sidebar.css';
 
 
 class Sidebar extends Component {
-    constructor() {
-        super();
-        this.state = {
-          activeButtonId: 0
-        };
-    }
 
     render() {
         return (
             <div className="Sidebar">
-                <SidebarButton label="Trigger List" img={this.isButtonActive(0) ? triggerListActiveIcon : triggerListInactiveIcon} isButtonActive={this.isButtonActive(0)} onClick={() => this.handleClick(0)}/>
-                <SidebarButton label="History" img={this.isButtonActive(1) ? historyActiveIcon : historyInactiveIcon} isButtonActive={this.isButtonActive(1)} onClick={() => this.handleClick(1)}/>
+                <SidebarButton label="Trigger List" img={this.isButtonActive(0) ? triggerListActiveIcon : triggerListInactiveIcon} isButtonActive={this.isButtonActive(0)} onClick={() => this.props.handleClick(0)}/>
+                <SidebarButton label="History" img={this.isButtonActive(1) ? historyActiveIcon : historyInactiveIcon} isButtonActive={this.isButtonActive(1)} onClick={() => this.props.handleClick(1)}/>
                 <div className="CreateTriggerButton">Create Trigger</div>
             </div>
         );
     }
 
-    handleClick(buttonId) {
-        this.setState({activeButtonId: buttonId});
-    }
-
     isButtonActive(buttonId){
-        return this.state.activeButtonId === buttonId;
+        return this.props.activeButtonId === buttonId;
     }
 }
 

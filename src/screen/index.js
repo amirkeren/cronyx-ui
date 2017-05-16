@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import searchIcon from '../../assets/svg/assets_History_2017-05-16 2/ic-search.svg';
+import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
+import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
+import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg'
+
 import moment from 'moment';
 
 import './style.css';
 
 import axios from 'axios';
-
 var querystring = require('querystring');
+
 
 axios.defaults.baseURL = 'manage/scheduling/';
 
@@ -23,6 +26,32 @@ class Screen extends Component{
 
   getDate(timestamp) {
       return moment(timestamp).calendar().split(" at").join(",");
+  }
+
+  pauseTrigger(trigger) {
+    axios.post('triggers/pause', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
+      .then(res => {
+        var triggers = this.state.triggers;
+        var item = triggers.filter(tr =>  tr.triggerKey.name === trigger.triggerKey.name)[0];
+        item.triggerData._TRIGGER_STATUS = "PAUSED";
+        this.setState({ triggers });
+      })
+      .catch(res => {
+        console.log("error: " + res);
+      });
+  }
+
+  resumeTrigger(trigger) {
+    axios.post('triggers/resume', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
+      .then(res => {
+        var triggers = this.state.triggers;
+        var item = triggers.filter(tr =>  tr.triggerKey.name === trigger.triggerKey.name)[0];
+        item.triggerData._TRIGGER_STATUS = "ACTIVE";
+        this.setState({ triggers });
+      })
+      .catch(res => {
+        console.log(res);
+      });
   }
 
   componentDidMount() {
@@ -43,8 +72,6 @@ class Screen extends Component{
                     </div>
                 </div>
                 <div className="row table-wrapper no-gutters">
-
-
 
                 <table className="table">
                     <thead>
@@ -68,8 +95,14 @@ class Screen extends Component{
                                   <td >
                                       {this.getDate(trigger.triggerData._NEXT_FIRING_TIME)}
                                   </td>
+
                                   <td >
-                                      {trigger.triggerData._TRIGGER_STATUS}
+                                      {trigger.triggerData._TRIGGER_STATUS === "ACTIVE" &&
+                                        <img src={pauseIcon} alt="" className="pause-icon" onClick={() => this.pauseTrigger(trigger)}/>
+                                      }
+                                      {trigger.triggerData._TRIGGER_STATUS === "PAUSED" &&
+                                        <img src={playIcon} alt="" className="play-icon" onClick={() => this.resumeTrigger(trigger)}/>
+                                      }
                                   </td>
                                   <td>
                                       d
