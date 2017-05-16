@@ -11,6 +11,7 @@
     "axios": "^0.16.1",
     "bootstrap": "^4.0.0-alpha.6",
     "moment": "^2.18.1",
+    "react-json-tree": "^0.10.9",
     "react-scripts": "0.9.5"
   },
   "scripts": {

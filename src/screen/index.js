@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import JSONTree from 'react-json-tree';
 import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
 import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
 import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg';
@@ -144,9 +145,8 @@ class Screen extends Component{
                                 primary: true,
                                 onClick: () => this.setState({ currentTrigger: null })
                             }]}>
-                        <pre className="trigger-info-pre">
-                            {JSON.stringify(this.state.currentTriggerInfo, null, 4)}
-                        </pre>
+                        <JSONTree data={this.state.currentTriggerInfo}
+                            theme={{tree: { backgroundColor: 'transparent' }}}/>
                     </Modal>
                 : null}
             </div>
