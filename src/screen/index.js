@@ -73,11 +73,14 @@ class Screen extends Component{
   }
 
   filterTriggers(refName, e) {
-    var triggers = this.state.triggers;
-    var triggersCopyObj = this.state.triggersCopy;
-    var filterText = e.target.value;
+    const triggers = this.state.triggers;
+    const filterText = e.target.value;
+    let triggersCopyObj = this.state.triggersCopy;
     if (filterText) {
-      triggersCopyObj = _.filter(triggers, function(o) { return o.triggerKey.name.includes(filterText) ||  o.triggerKey.group.includes(filterText) });
+      triggersCopyObj = _.filter(triggers, function(o) {
+        let triggerFullName = o.triggerKey.group + "." + o.triggerKey.name;
+        return triggerFullName.includes(filterText);
+      });
     } else {
       triggersCopyObj = triggers;
     }
