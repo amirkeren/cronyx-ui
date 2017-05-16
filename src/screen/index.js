@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import searchIcon from '../../assets/svg/assets_History_2017-05-16/ic-search.svg';
+import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
 import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
 import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg'
 
@@ -76,9 +76,9 @@ class Screen extends Component{
                 <table className="table">
                     <thead>
                         <tr>
-                            <th >Trigger Name </th>
-                            <th >Previous Run</th>
-                            <th >Next Run</th>
+                            <th className="large-cell">Trigger Name </th>
+                            <th>Previous Run</th>
+                            <th>Next Run</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -86,7 +86,7 @@ class Screen extends Component{
                     <tbody>
                         {this.state.triggers.map(trigger =>
                             <tr>
-                                  <td>
+                                  <td className="large-cell">
                                     {trigger.triggerKey.name}
                                   </td>
                                   <td >
@@ -104,8 +104,8 @@ class Screen extends Component{
                                         <img src={playIcon} alt="" className="play-icon" onClick={() => this.resumeTrigger(trigger)}/>
                                       }
                                   </td>
-                                  <td >
-                                      delete
+                                  <td>
+                                      d
                                   </td>
                             </tr>
                         )}
