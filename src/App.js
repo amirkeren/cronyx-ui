@@ -4,10 +4,10 @@ import './bootstrap-grid.css';
 import './bootstrap-reboot.css';
 import './bootstrap.css';
 
-import Header from "./Header/Header";
+import Header from "./header/Header";
 import Screen from './screen/index.js';
 
-import Sidebar from "./Sidebar/Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 import './ajaxutils.js';
 
 class App extends Component {
