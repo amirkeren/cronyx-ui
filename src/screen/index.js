@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import searchIcon from '../../assets/svg/assets_History_2017-05-16/ic-search.svg';
+import searchIcon from '../../assets/svg/assets_History_2017-05-16 2/ic-search.svg';
 import moment from 'moment';
 
 import './style.css';
