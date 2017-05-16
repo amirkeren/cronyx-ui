@@ -22,3 +22,13 @@
     top: 5px;
     left: 22px;
 }
+
+.table tr {
+    cursor:pointer;
+}
+
+.trigger-info-pre {
+    color:#929292;
+    overflow:visible;
+    white-space:pre-wrap;
+}
