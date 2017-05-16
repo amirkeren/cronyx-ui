@@ -110,7 +110,7 @@ class Screen extends Component{
                         {this.state.triggers.map(trigger =>
                             <tr onClick={() => this.openInfoModal(trigger)}>
                                   <td className="large-cell">
-                                    {trigger.triggerKey.name}
+                                    {`${trigger.triggerKey.name}.${trigger.triggerKey.group}`}
                                   </td>
                                   <td >
                                     {this.getDate(trigger.triggerData._PREVIOUS_FIRING_TIME)}
