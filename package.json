@@ -2,9 +2,11 @@
   "name": "cronyx-ui",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://172.25.8.163:8091",
   "dependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "axios": "^0.16.1"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
