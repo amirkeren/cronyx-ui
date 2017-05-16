@@ -72,7 +72,7 @@ class Screen extends Component{
     if (filterText) {
       triggersCopyObj = _.filter(triggers, function(o) {
         let triggerFullName = o.triggerKey.group + "." + o.triggerKey.name;
-        return triggerFullName.includes(filterText);
+        return triggerFullName.toLowerCase().includes(filterText.toLowerCase());
       });
     } else {
       triggersCopyObj = triggers;
@@ -97,6 +97,20 @@ class Screen extends Component{
                 currentTriggerInfo: resp.data
             });
         });
+    }
+
+    getDeleteModalSubtitle () {
+        if (this.state.currentDeleteTrigger) {
+            return `Are you sure you want to delete ${this.state.currentDeleteTrigger.triggerKey.group}.${this.state.currentDeleteTrigger.triggerKey.name} trigger?`;
+        }
+        return '';
+    }
+
+    getInfoModalSubtitle () {
+        if (this.state.currentTrigger) {
+            return `${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`;
+        }
+        return '';
     }
 
     openDeleteModal(trigger) {
@@ -180,36 +194,34 @@ class Screen extends Component{
                     </tbody>
                 </table>
                 </div>
-                {this.state.currentTrigger ?
-                    <Modal title="Trigger Info"
-                            subtitle={`${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`}
-                            buttons={[{
-                                text: "Close",
-                                primary: true,
-                                onClick: () => this.setState({ currentTrigger: null })
-                            }]}>
-                        <JSONTree data={this.state.currentTriggerInfo}
-                            theme={{tree: { backgroundColor: 'transparent' }}}/>
-                    </Modal>
-                : null}
+                <Modal title="Trigger Info"
+                        subtitle={this.getInfoModalSubtitle()}
+                        active={!!this.state.currentTrigger}
+                        buttons={[{
+                            text: "Close",
+                            primary: true,
+                            onClick: () => this.setState({ currentTrigger: null })
+                        }]}>
+                    <JSONTree data={this.state.currentTriggerInfo || {}}
+                        theme={{tree: { backgroundColor: 'transparent' }}}/>
+                </Modal>
 
-                {this.state.currentDeleteTrigger ?
-                    <Modal title="Delete Trigger"
-                            subtitle={`Are you sure you want to delete ${this.state.currentDeleteTrigger.triggerKey.group}.${this.state.currentDeleteTrigger.triggerKey.name} trigger?`}
-                            buttons={[
-                            {
-                                text: "Delete This Trigger",
-                                primary: true,
-                                onClick: () => this.deleteTrigger()
-                            },
-                            {
-                                text: "Cancel",
-                                onClick: () => this.setState({ currentDeleteTrigger:  null })
-                            }
-                            ]}>
+                <Modal title="Delete Trigger"
+                        active={!!this.state.currentDeleteTrigger}
+                        subtitle={this.getDeleteModalSubtitle()}
+                        buttons={[
+                        {
+                            text: "Delete This Trigger",
+                            primary: true,
+                            onClick: () => this.deleteTrigger()
+                        },
+                        {
+                            text: "Cancel",
+                            onClick: () => this.setState({ currentDeleteTrigger:  null })
+                        }
+                        ]}>
 
-                    </Modal>
-                : null}
+                </Modal>
             </div>
         );
     }

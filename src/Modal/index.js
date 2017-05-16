@@ -4,14 +4,17 @@ import './style.css';
 export default class Modal extends React.Component {
     render () {
         const props = this.props;
-        return <div className="cronyx-modal">
+        const { active } = props;
+        return <div className={`cronyx-modal ${active ? 'active' : ''}`}>
             <div className="cronyx-modal-background"></div>
             <div className="cronyx-modal-window">
                 <div className="cronyx-modal-title">{props.title}</div>
                 <div className="cronyx-modal-subtitle">{props.subtitle}</div>
-                <div className="cronyx-modal-content">
-                    {props.children}
-                </div>
+                {props.children ?
+                    <div className="cronyx-modal-content">
+                        {props.children}
+                    </div>
+                : null}
                 <div className="cronyx-modal-footer">
                     {props.buttons.map((btn, i) => {
                         return <div key={i} className="cronyx-modal-button"
