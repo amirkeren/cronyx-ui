@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
 import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
-import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg'
+import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg';
+import deleteIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-delete.svg';
 
 import moment from 'moment';
 
@@ -105,7 +106,7 @@ class Screen extends Component{
                                       }
                                   </td>
                                   <td>
-                                      d
+                                      <img src={deleteIcon} alt="" className="delete-icon"/>
                                   </td>
                             </tr>
                         )}
