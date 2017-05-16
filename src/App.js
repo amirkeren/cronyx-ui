@@ -8,6 +8,7 @@ import Header from "./Header/Header";
 import Screen from './screen/index.js';
 
 import Sidebar from "./Sidebar/Sidebar";
+import './ajaxutils.js';
 
 class App extends Component {
   render() {

@@ -13,4 +13,7 @@
 .Line {
     background-image: linear-gradient(to right, #d39c00, #fec41b);
     height: 2px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
