@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="32" viewBox="0 0 96 32">
+    <g fill="none" fill-rule="evenodd">
+        <rect width="96" height="32" fill="#FF9600" rx="4"/>
+        <text fill="#FFF" font-family="Lato-Bold, Lato" font-size="17" font-weight="bold">
+            <tspan x="28.552" y="21">close</tspan>
+        </text>
+    </g>
+</svg>
