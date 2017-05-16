@@ -85,6 +85,13 @@ class Screen extends Component{
         });
     }
 
+    getInfoModalSubtitle () {
+        if (this.state.currentTrigger) {
+            return `${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`
+        }
+        return '';
+    }
+
     render() {
         return(
             <div className="main-screen-wrapper">
@@ -137,18 +144,17 @@ class Screen extends Component{
                     </tbody>
                 </table>
                 </div>
-                {this.state.currentTrigger ?
-                    <Modal title="Trigger Info"
-                            subtitle={`${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`}
-                            buttons={[{
-                                text: "Close",
-                                primary: true,
-                                onClick: () => this.setState({ currentTrigger: null })
-                            }]}>
-                        <JSONTree data={this.state.currentTriggerInfo}
-                            theme={{tree: { backgroundColor: 'transparent' }}}/>
-                    </Modal>
-                : null}
+                <Modal title="Trigger Info"
+                        subtitle={this.getInfoModalSubtitle()}
+                        active={!!this.state.currentTrigger}
+                        buttons={[{
+                            text: "Close",
+                            primary: true,
+                            onClick: () => this.setState({ currentTrigger: null })
+                        }]}>
+                    <JSONTree data={this.state.currentTriggerInfo || {}}
+                        theme={{tree: { backgroundColor: 'transparent' }}}/>
+                </Modal>
             </div>
         );
     }

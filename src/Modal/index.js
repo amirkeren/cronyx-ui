@@ -4,7 +4,8 @@ import './style.css';
 export default class Modal extends React.Component {
     render () {
         const props = this.props;
-        return <div className="cronyx-modal">
+        const { active } = props;
+        return <div className={`cronyx-modal ${active ? 'active' : ''}`}>
             <div className="cronyx-modal-background"></div>
             <div className="cronyx-modal-window">
                 <div className="cronyx-modal-title">{props.title}</div>
