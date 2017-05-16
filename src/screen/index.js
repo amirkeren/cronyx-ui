@@ -24,6 +24,7 @@ class Screen extends Component{
 
     this.state = {
       triggers: []
+      triggersCopy: []
     };
   }
 
@@ -71,6 +72,7 @@ class Screen extends Component{
     axios.get('triggers/all')
       .then(res => {
         this.setState({triggers: res.data});
+        this.setState({triggersCopy: res.data});
       });
   }
 
