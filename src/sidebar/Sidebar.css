@@ -3,17 +3,6 @@
     background-color: #41484b;
 }
 
-.SidebarLabel {
-    font-family: Lato;
-    font-size: 14px;
-    font-weight: bold;
-    color: #b4b4b4;
-}
-
-.SidebarIcon {
-    margin: 30px 10px 10px;
-}
-
 .CreateTriggerButton {
     width: 138px;
     height: 32px;

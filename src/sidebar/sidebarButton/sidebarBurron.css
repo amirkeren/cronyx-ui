@@ -1,0 +1,17 @@
+.SidebarActiveLabel {
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: bold;
+    color: #d49d01;
+}
+
+.SidebarInactiveLabel {
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: bold;
+    color: #b4b4b4;
+}
+
+.SidebarIcon {
+    margin: 30px 10px 10px;
+}
