@@ -5,6 +5,8 @@ import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.
 import deleteIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-delete.svg';
 
 import moment from 'moment';
+import Modal from '../Modal';
+import {triggerInfo} from '../ajaxutils';
 
 import './style.css';
 
@@ -72,6 +74,16 @@ class Screen extends Component{
       });
   }
 
+    openInfoModal (trigger) {
+        const {name, group} = trigger.triggerKey;
+        triggerInfo(name, group).then(resp => {
+            this.setState({
+                currentTrigger: trigger,
+                currentTriggerInfo: resp.data
+            });
+        });
+    }
+
     render() {
         return(
             <div className="main-screen-wrapper">
@@ -96,7 +108,7 @@ class Screen extends Component{
                     </thead>
                     <tbody>
                         {this.state.triggers.map(trigger =>
-                            <tr>
+                            <tr onClick={() => this.openInfoModal(trigger)}>
                                   <td className="large-cell">
                                     {trigger.triggerKey.name}
                                   </td>
@@ -124,6 +136,19 @@ class Screen extends Component{
                     </tbody>
                 </table>
                 </div>
+                {this.state.currentTrigger ?
+                    <Modal title="Trigger Info"
+                            subtitle={`${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`}
+                            buttons={[{
+                                text: "Close",
+                                primary: true,
+                                onClick: () => this.setState({ currentTrigger: null })
+                            }]}>
+                        <pre className="trigger-info-pre">
+                            {JSON.stringify(this.state.currentTriggerInfo, null, 4)}
+                        </pre>
+                    </Modal>
+                : null}
             </div>
         );
     }

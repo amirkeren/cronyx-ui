@@ -14,17 +14,11 @@ function getTriggers() {
     });
 }
 
-function triggerInfo(triggerName, groupName) {
-  axios.get('triggers', { params: {
+export function triggerInfo(triggerName, groupName) {
+  return axios.get('triggers', { params: {
       name: triggerName,
       group: groupName
-    }})
-    .then(res => {
-      console.log(res.data);
-    })
-    .catch(res => {
-      console.log(res);
-    });
+    }});
 }
 
 function resumeTrigger(triggerName, groupName) {
