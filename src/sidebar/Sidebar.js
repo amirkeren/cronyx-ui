@@ -14,9 +14,9 @@ class Sidebar extends Component {
     render() {
         return (
             <div className="Sidebar">
-                <SidebarButton label="Trigger List" img={this.isButtonActive(0) ? triggerListActiveIcon : triggerListInactiveIcon} isButtonActive={this.isButtonActive(0)} onClick={() => this.props.handleClick(0)}/>
-                <SidebarButton label="History" img={this.isButtonActive(1) ? historyActiveIcon : historyInactiveIcon} isButtonActive={this.isButtonActive(1)} onClick={() => this.props.handleClick(1)}/>
-                <div className="CreateTriggerButton">Create Trigger</div>
+                <SidebarButton label="Trigger List" img={this.isButtonActive(0) ? triggerListActiveIcon : triggerListInactiveIcon} isButtonActive={this.isButtonActive(0)} onClick={() => this.props.handleTabClick(0)}/>
+                <SidebarButton label="History" img={this.isButtonActive(1) ? historyActiveIcon : historyInactiveIcon} isButtonActive={this.isButtonActive(1)} onClick={() => this.props.handleTabClick(1)}/>
+                <div className="CreateTriggerButton" onClick={this.props.handleCreateTriggerClick}>Create Trigger</div>
             </div>
         );
     }
