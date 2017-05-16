@@ -7,6 +7,7 @@ import './bootstrap.css';
 import Header from "./Header/Header";
 import Screen from './screen/index.js';
 
+import './ajaxutils.js';
 
 class App extends Component {
   render() {
@@ -14,7 +15,7 @@ class App extends Component {
       <div className="App">
         <Header/>
         <Screen/>
-        
+
 
       </div>
     );
