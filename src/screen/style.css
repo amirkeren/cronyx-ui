@@ -20,5 +20,12 @@
 .search-icon {
     position: absolute;
     top: 5px;
-    left: 22px;
+    left: 5px;
 }
+
+.large-cell {
+    width: 50%;
+}
+ .table {
+     text-align: left;
+ }
