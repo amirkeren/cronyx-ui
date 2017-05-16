@@ -144,7 +144,7 @@ class Screen extends Component{
                                   <td >
                                       {trigger.triggerData._TRIGGER_STATUS === "ACTIVE" &&
                                         <div>
-                                          <Switch on='true' onClick={() => this.pauseTrigger(trigger)}/>
+                                          <Switch on={true} onClick={() => this.pauseTrigger(trigger)}/>
                                         </div>
                                       }
                                       {trigger.triggerData._TRIGGER_STATUS === "PAUSED" &&
