@@ -37,6 +37,7 @@ class App extends Component {
                     <div className="col-2"><Sidebar activeButtonId={this.state.activeButtonId} handleTabClick={this.handleTabClick} handleCreateTriggerClick={this.handleCreateTriggerClick}/></div>
                     <div className="col-10">{this.getActiveScreen()}</div>
                       <Modal title="Create Trigger"
+                          subtitle={"Enter new trigger details"}
                           active={!!this.state.isCreateTrigger}
                           buttons={[
                           {
@@ -57,14 +58,22 @@ class App extends Component {
     }
 
     createTrigger(triggerType, triggerName, triggerGroup, jobName, jobGroup, jobData, cronExpression) {
+      let jobDataArray = jobData.split('\n');
+      let jobDataJson = '{';
+      for (var i = 0; i < jobDataArray.length; i++) {
+          let key = jobDataArray[i].split("=")[0];
+          let value = jobDataArray[i].split("=")[1];
+          jobDataJson += "'" + key + "': " + "'" + value + "',";
+      }
+      jobDataJson = jobDataJson.substring(0, jobDataJson.length - 1) + '}';
       if (triggerType === 'Immediate') {
-        createImmediateTriger(triggerName, triggerGroup, jobName, jobGroup, jobData).then(res => {
+        createImmediateTriger(triggerName, triggerGroup, jobName, jobGroup, jobDataJson).then(res => {
             alert('Trigger Created');
         }).catch(err => {
             alert(err);
         });
       } else {
-        createCronTriger(triggerName, triggerGroup, jobName, jobGroup, jobData, cronExpression).then(res => {
+        createCronTriger(triggerName, triggerGroup, jobName, jobGroup, jobDataJson, cronExpression).then(res => {
             alert('Trigger Created');
         }).catch(err => {
             alert(err);
