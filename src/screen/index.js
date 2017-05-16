@@ -205,7 +205,12 @@ class Screen extends Component{
                             onClick: () => this.setState({ currentTrigger: null })
                         }]}>
                     <JSONTree data={this.state.currentTriggerInfo || {}}
-                        theme={{tree: { backgroundColor: 'transparent' }}}/>
+                              theme={{tree: { backgroundColor: 'transparent' },
+                                  label:{color: '#929292'},
+                                  valueText:{color: '#929292'},
+                                  itemRange:{color: '#929292'},
+                                  arrowSign:{borderTopColor: '#929292'},
+                                  nestedNodeItemString:{color: '#929292'}}}/>
                 </Modal>
 
                 <Modal title="Delete Trigger"
