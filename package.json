@@ -5,7 +5,7 @@
   "proxy": "http://172.25.8.163:8091",
   "dependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react-dom": "^15.5.4"
   },
   "devDependencies": {
     "bootstrap": "^4.0.0-alpha.6",

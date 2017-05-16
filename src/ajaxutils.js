@@ -41,5 +41,3 @@ function deleteTrigger(triggerName, groupName) {
       console.log(res);
     });
 }
-
-getTriggers()
