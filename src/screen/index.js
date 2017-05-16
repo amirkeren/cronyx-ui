@@ -67,7 +67,7 @@ class Screen extends Component{
 
   filterTriggers(refName, e) {
     const triggers = this.state.triggers;
-    const filterText = e.target.value;
+    const filterText = e ? e.target.value : "";
     let triggersCopyObj = this.state.triggersCopy;
     if (filterText) {
       triggersCopyObj = _.filter(triggers, function(o) {
@@ -123,14 +123,16 @@ class Screen extends Component{
     }
 
     deleteTrigger() {
-        const trigger = this.state.currentDeleteTrigger;
-        axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
+        const deleteItem = this.state.currentDeleteTrigger;
+        axios.post('triggers/delete', querystring.stringify({ name: deleteItem.triggerKey.name, group: deleteItem.triggerKey.group }))
         .then(res => {
-          let triggers = this.state.triggersCopy;
-          const deleteItem = this.state.currentDeleteTrigger;
-          const updateTriggers = triggers.filter(tr => tr.triggerKey.name !== deleteItem.triggerKey.name && tr.triggerKey.group !== deleteItem.triggerKey.group)
-          this.setState({ triggersCopy: updateTriggers });
-          //this.setState({ triggers: updateTriggers });
+          let triggers = this.state.triggers;
+           _.remove(triggers, function(tr){
+               return tr.triggerKey.name === deleteItem.triggerKey.name && tr.triggerKey.group === deleteItem.triggerKey.group;
+           });
+          this.setState({ triggersCopy: triggers });
+          this.setState({ triggers: triggers });
+          this.refs.filterTriggersInput.value = "";
           this.setState({ currentDeleteTrigger: null });
         })
         .catch(res => {
