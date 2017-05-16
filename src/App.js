@@ -4,6 +4,7 @@ import './bootstrap-grid.css';
 import './bootstrap-reboot.css';
 import './bootstrap.css';
 
+import _ from 'lodash';
 import Header from "./header/Header";
 import Screen from './screen/index.js';
 import HistoryScreen from './historyScreen/HistoryScreen';
@@ -43,9 +44,9 @@ class App extends Component {
         this.screens = [ < Screen />, < HistoryScreen />
         ];
         getAllJobs().then(res => {
-            this.setState({
-                jobs: res.data.map(j => j.key.group + "." + j.key.name)
-            });
+          let jobsResult = res.data.map(j => j.key.group + "." + j.key.name);
+          const sortedJobs = _.sortBy(jobsResult, [function(o) { return o; }]);
+          this.setState({ jobs: sortedJobs})
         });
 
         this.onSelection = this.onSelection.bind(this);
