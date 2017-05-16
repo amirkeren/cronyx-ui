@@ -17,7 +17,7 @@ class Sidebar extends Component {
                     <img className="sidebarIcon" src={historyIcon} />
                     <h1 className="sidebarLabel">History</h1>
                 </div>
-                <button className="sidebarButton">Create Trigger</button>
+                <div><button className="sidebarButton">Create Trigger</button></div>
             </div>
         );
     }

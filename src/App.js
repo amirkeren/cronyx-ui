@@ -14,9 +14,9 @@ class App extends Component {
     return (
         <div className="App">
             <Header/>
-            <div className="row">
-                <Sidebar className="col-3"/>
-                <Screen/>
+            <div className="MainContainer row">
+                <div className="col-2"><Sidebar/></div>
+                <div className="col-10"><Screen/></div>
             </div>
         </div>
     );
