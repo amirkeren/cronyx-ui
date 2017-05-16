@@ -14,4 +14,11 @@
 	height: 32px;
 	border-radius: 4px;
 	border: solid 1px #979797;
+    padding: 0 5px 0 30px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 5px;
+    left: 22px;
 }
