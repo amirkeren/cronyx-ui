@@ -33,7 +33,7 @@ class Screen extends Component{
     axios.post('triggers/pause', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
       .then(res => {
         var triggers = this.state.triggers;
-        var item = triggers.filter(tr =>  tr.triggerKey.name === trigger.triggerKey.name)[0];
+        var item = triggers.filter(tr =>  tr.triggerKey.name === trigger.triggerKey.name && tr.triggerKey.group === trigger.triggerKey.group)[0];
         item.triggerData._TRIGGER_STATUS = "PAUSED";
         this.setState({ triggers });
       })
@@ -46,7 +46,7 @@ class Screen extends Component{
     axios.post('triggers/resume', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
       .then(res => {
         var triggers = this.state.triggers;
-        var item = triggers.filter(tr =>  tr.triggerKey.name === trigger.triggerKey.name)[0];
+        var item = triggers.filter(tr =>  tr.triggerKey.name === trigger.triggerKey.name && tr.triggerKey.group === trigger.triggerKey.group)[0];
         item.triggerData._TRIGGER_STATUS = "ACTIVE";
         this.setState({ triggers });
       })
