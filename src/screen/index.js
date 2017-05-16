@@ -28,6 +28,7 @@ class Screen extends Component{
 
     this.state = {
       triggers: [],
+      currentDeleteTrigger: null,
       triggersCopy: []
     };
   }
@@ -62,15 +63,7 @@ class Screen extends Component{
       });
   }
 
-  deleteTrigger(trigger) {
-    axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
-      .then(res => {
-        console.log(res);
-      })
-      .catch(res => {
-        console.log(res);
-      });
-  }
+
 
   filterTriggers(refName, e) {
     const triggers = this.state.triggers;
@@ -79,7 +72,7 @@ class Screen extends Component{
     if (filterText) {
       triggersCopyObj = _.filter(triggers, function(o) {
         let triggerFullName = o.triggerKey.group + "." + o.triggerKey.name;
-        return triggerFullName.includes(filterText);
+        return triggerFullName.toLowerCase().includes(filterText.toLowerCase());
       });
     } else {
       triggersCopyObj = triggers;
@@ -106,11 +99,42 @@ class Screen extends Component{
         });
     }
 
-    getInfoModalSubtitle () {
-        if (this.state.currentTrigger) {
-            return `${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`
+    getDeleteModalSubtitle () {
+        if (this.state.currentDeleteTrigger) {
+            return `Are you sure you want to delete ${this.state.currentDeleteTrigger.triggerKey.group}.${this.state.currentDeleteTrigger.triggerKey.name} trigger?`;
         }
         return '';
+    }
+
+    getInfoModalSubtitle () {
+        if (this.state.currentTrigger) {
+            return `${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`;
+        }
+        return '';
+    }
+
+    openDeleteModal(trigger) {
+        const {name, group} = trigger.triggerKey;
+        triggerInfo(name, group).then(resp => {
+            this.setState({
+                currentDeleteTrigger: trigger
+            });
+        });
+    }
+
+    deleteTrigger() {
+        const trigger = this.state.currentDeleteTrigger;
+        axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
+        .then(res => {
+          let triggers = this.state.triggers;
+          const deleteItem = this.state.currentDeleteTrigger;
+          const updateTriggers = triggers.filter(tr => tr.triggerKey.name !== deleteItem.triggerKey.name && tr.triggerKey.group !== deleteItem.triggerKey.group)
+          this.setState({ triggers: updateTriggers });
+          this.setState({ currentDeleteTrigger: null });
+        })
+        .catch(res => {
+          console.log(res);
+        });
     }
 
     render() {
@@ -161,7 +185,7 @@ class Screen extends Component{
                                       }
                                   </td>
                                   <td>
-                                      <img src={deleteIcon} alt="" className="delete-icon"/>
+                                      <img src={deleteIcon} alt="" className="delete-icon" onClick={() => this.openDeleteModal(trigger)}/>
                                   </td>
                             </tr>
                         )}
@@ -179,6 +203,23 @@ class Screen extends Component{
                         }]}>
                     <JSONTree data={this.state.currentTriggerInfo || {}}
                         theme={{tree: { backgroundColor: 'transparent' }}}/>
+                </Modal>
+
+                <Modal title="Delete Trigger"
+                        active={!!this.state.currentDeleteTrigger}
+                        subtitle={this.getDeleteModalSubtitle()}
+                        buttons={[
+                        {
+                            text: "Delete This Trigger",
+                            primary: true,
+                            onClick: () => this.deleteTrigger()
+                        },
+                        {
+                            text: "Cancel",
+                            onClick: () => this.setState({ currentDeleteTrigger:  null })
+                        }
+                        ]}>
+
                 </Modal>
             </div>
         );
