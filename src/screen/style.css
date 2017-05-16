@@ -9,6 +9,10 @@
     padding: 7px 0;
 }
 
+div.switch.on {
+  background: #ffb800
+}
+
 .search-box {
 	width: 400px;
 	height: 32px;

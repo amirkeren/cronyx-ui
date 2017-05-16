@@ -8,8 +8,10 @@ import deleteIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-delete
 import moment from 'moment';
 import Modal from '../Modal';
 import {triggerInfo} from '../ajaxutils';
+import Switch from 'react-toggle-switch';
 
 import './style.css';
+import "../../node_modules/react-toggle-switch/dist/css/switch.min.css"
 
 import axios from 'axios';
 import _ from 'lodash';
@@ -142,10 +144,14 @@ class Screen extends Component{
 
                                   <td >
                                       {trigger.triggerData._TRIGGER_STATUS === "ACTIVE" &&
-                                        <img src={pauseIcon} alt="" className="pause-icon status-btn" onClick={() => this.pauseTrigger(trigger)}/>
+                                        <div>
+                                          <Switch on='true' onClick={() => this.pauseTrigger(trigger)}/>
+                                        </div>
                                       }
                                       {trigger.triggerData._TRIGGER_STATUS === "PAUSED" &&
-                                        <img src={playIcon} alt="" className="play-icon status-btn" onClick={() => this.resumeTrigger(trigger)}/>
+                                        <div>
+                                          <Switch onClick={() => this.resumeTrigger(trigger)}/>
+                                        </div>
                                       }
                                   </td>
                                   <td>
