@@ -23,6 +23,16 @@
     left: 5px;
 }
 
+.table tr {
+    cursor:pointer;
+}
+
+.trigger-info-pre {
+    color:#929292;
+    overflow:visible;
+    white-space:pre-wrap;
+}
+
 .large-cell {
     width: 50%;
 }
