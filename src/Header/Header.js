@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../../assets/assets_triggerList_2017-05-16/group.png';
+import logo from '../../assets/svg/assets_triggerList_2017-05-16/group.svg';
 import './Header.css';
 
 
