@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
+import './bootstrap-grid.css';
+import './bootstrap-reboot.css';
+import './bootstrap.css';
+
 import Header from "./Header/Header";
+import Screen from './screen/index.js';
+
 import Sidebar from "./Sidebar/Sidebar";
 
 class App extends Component {
@@ -10,11 +16,7 @@ class App extends Component {
             <Header/>
             <div className="row">
                 <Sidebar className="col-3"/>
-                <div className="col-9">
-                    <p className="App-intro">
-                        To get started, edit <code>src/App.js</code> and save to reload.
-                    </p>
-                </div>
+                <Screen/>
             </div>
         </div>
     );
