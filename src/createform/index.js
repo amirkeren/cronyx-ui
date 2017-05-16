@@ -5,24 +5,31 @@ import './style.css';
 
 import {getAllJobs} from '../ajaxutils';
 
-const options = [
-  { value: 'one', label: 'One' },
-  { value: 'two', label: 'Two' }
-];
-
-const defaultOption = options[0];
-
 class CreateForm extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            jobs: [],
+            selectedJob: ""
+        };
+
+        getAllJobs().then(res => {
+            this.setState({jobs: res.data.map(j => j.key.group + "." + j.key.name)});
+        });
+    }
+
+    onSelection(selected) {
+        this.setState({selectedJob: selected})
+    }
+
     render() {
         return (
           <div className="form-group">
             <div className="form-group">
               <label for="jobname" className="Job-name">Job name:</label>
-              <Dropdown options={
-                  getAllJobs().then(res => {
-                      console.log(res.data);
-                      })
-                  } className="form-control" id="jobname" onChange={this._onSelect} value={defaultOption} placeholder="Select job name" />
+
+              <Dropdown options={this.state.jobs} id="jobname" onChange={this.onSelection} value={this.state.selectedJob} placeholder="Select job name" />
             </div>
             <div className="form-group">
               <label className="form-check Trigger-Type">Trigger type:</label>

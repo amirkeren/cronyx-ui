@@ -13,8 +13,8 @@ export function getAllJobs() {
   return axios.get('jobs/all');
 }
 
-function createImmediateTriger(triggerName, groupName, jobName, jobGroup, jobData) {
-  axios.post('/triggers/new/immediate', {
+export function createImmediateTriger(triggerName, groupName, jobName, jobGroup, jobData) {
+  return axios.post('/triggers/new/immediate', {
   	"triggerKey": {
   		"name": triggerName,
   		"group": groupName
@@ -24,17 +24,11 @@ function createImmediateTriger(triggerName, groupName, jobName, jobGroup, jobDat
   		"group": jobGroup
   	},
   	"triggerData": JSON.parse(jobData)
-  })
-  .then(res => {
-    console.log(res);
-  })
-  .catch(res => {
-    console.log(res);
   });
 }
 
-function createCronTriger(triggerName, groupName, jobName, jobGroup, jobData, cronExp) {
-  axios.post('/triggers/new/cron', {
+export function createCronTriger(triggerName, groupName, jobName, jobGroup, jobData, cronExp) {
+  return axios.post('/triggers/new/cron', {
   	"triggerKey": {
   		"name": triggerName,
   		"group": groupName
@@ -45,11 +39,5 @@ function createCronTriger(triggerName, groupName, jobName, jobGroup, jobData, cr
   	},
   	"triggerData": JSON.parse(jobData),
     "cronExpression": cronExp
-  })
-  .then(res => {
-    console.log(res);
-  })
-  .catch(res => {
-    console.log(res);
   });
 }
