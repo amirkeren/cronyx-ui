@@ -1,0 +1,17 @@
+.triggers-list-header {
+    font-family: 'Teko', sans-serif;
+	width: 121px;
+	height: 49px;
+	font-family: Teko;
+	font-size: 34px;
+	color: #929292;
+    margin: 0;
+    padding: 7px 0;
+}
+
+.search-box {
+	width: 400px;
+	height: 32px;
+	border-radius: 4px;
+	border: solid 1px #979797;
+}
