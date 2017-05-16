@@ -109,8 +109,8 @@ class Screen extends Component{
                     </thead>
                     <tbody>
                         {this.state.triggers.map(trigger =>
-                            <tr onClick={() => this.openInfoModal(trigger)}>
-                                  <td className="large-cell">
+                            <tr>
+                                  <td className="large-cell name-cell" onClick={() => this.openInfoModal(trigger)}>
                                     {`${trigger.triggerKey.name}.${trigger.triggerKey.group}`}
                                   </td>
                                   <td >
