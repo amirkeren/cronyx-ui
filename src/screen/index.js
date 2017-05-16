@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import JSONTree from 'react-json-tree';
 import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
-import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
-import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg';
 import deleteIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-delete.svg';
 
 import moment from 'moment';
@@ -92,8 +90,9 @@ class Screen extends Component{
   componentDidMount() {
     axios.get('triggers/all')
       .then(res => {
-        this.setState({triggers: res.data});
-        this.setState({triggersCopy: res.data});
+        const sortedTriggers = _.sortBy(res.data, ['triggerKey.group', 'triggerKey.name']);
+        this.setState({triggers: sortedTriggers});
+        this.setState({triggersCopy: sortedTriggers});
       });
   }
 
@@ -133,7 +132,7 @@ class Screen extends Component{
                         {this.state.triggersCopy.map(trigger =>
                             <tr>
                                   <td className="large-cell name-cell" onClick={() => this.openInfoModal(trigger)}>
-                                    {`${trigger.triggerKey.name}.${trigger.triggerKey.group}`}
+                                    {`${trigger.triggerKey.group}.${trigger.triggerKey.name}`}
                                   </td>
                                   <td >
                                     {this.getDate(trigger.triggerData._PREVIOUS_FIRING_TIME)}
