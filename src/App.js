@@ -15,7 +15,7 @@ class App extends Component {
     return (
         <div className="App">
             <Header/>
-            <div className="MainContainer row">
+            <div className="MainContainer row no-gutters">
                 <div className="col-2"><Sidebar/></div>
                 <div className="col-10"><Screen/></div>
             </div>
