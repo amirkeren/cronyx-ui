@@ -9,6 +9,10 @@ export function triggerInfo(triggerName, groupName) {
     }});
 }
 
+export function getAllJobs() {
+  return axios.get('jobs/all');
+}
+
 function createImmediateTriger(triggerName, groupName, jobName, jobGroup, jobData) {
   axios.post('/triggers/new/immediate', {
   	"triggerKey": {
