@@ -10,7 +10,8 @@ import HistoryScreen from './historyScreen/HistoryScreen';
 import Sidebar from "./sidebar/Sidebar";
 import Modal from './Modal/index';
 import CreateForm from './createform/index';
-import './ajaxutils.js';
+import {createImmediateTriger} from './ajaxutils';
+import {createCronTriger} from './ajaxutils';
 
 class App extends Component {
 
@@ -37,16 +38,15 @@ class App extends Component {
                     <div className="col-10">{this.getActiveScreen()}</div>
                       <Modal title="Create Trigger"
                           active={!!this.state.isCreateTrigger}
-                          subtitle={'blabla'}
                           buttons={[
-                          {
-                              text: "Create",
-                              primary: true,
-                              onClick: () => this.deleteTrigger()
-                          },
                           {
                               text: "Cancel",
                               onClick: () => this.setState({ isCreateTrigger: false })
+                          },
+                          {
+                              text: "Create",
+                              primary: true,
+                              onClick: () => this.createTrigger()
                           }
                           ]}>
                           <CreateForm/>
@@ -54,6 +54,22 @@ class App extends Component {
                 </div>
             </div>
         );
+    }
+
+    createTrigger(triggerType, triggerName, triggerGroup, jobName, jobGroup, jobData, cronExpression) {
+      if (triggerType === 'Immediate') {
+        createImmediateTriger(triggerName, triggerGroup, jobName, jobGroup, jobData).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
+      } else {
+        createCronTriger(triggerName, triggerGroup, jobName, jobGroup, jobData, cronExpression).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
+      }
     }
 
     getActiveScreen() {
