@@ -17,6 +17,8 @@ class CreateForm extends Component {
         getAllJobs().then(res => {
             this.setState({jobs: res.data.map(j => j.key.group + "." + j.key.name)});
         });
+
+        this.onSelection = this.onSelection.bind(this);
     }
 
     onSelection(selected) {
