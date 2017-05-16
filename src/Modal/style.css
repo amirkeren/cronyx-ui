@@ -28,7 +28,6 @@
 
 .cronyx-modal .cronyx-modal-window {
     background:#2c3438;
-    max-height:70%;
     max-width:60%;
     min-width:600px;
     display:flex;
@@ -98,4 +97,8 @@
 
 .cronyx-modal .cronyx-modal-button[data-primary="true"] {
     background-color:#ff9600;
+}
+
+.ml-20 {
+    margin-left: 20px;
 }
