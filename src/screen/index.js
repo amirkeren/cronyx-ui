@@ -57,6 +57,16 @@ class Screen extends Component{
       });
   }
 
+  deleteTrigger(trigger) {
+    axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
+      .then(res => {
+        console.log(res);
+      })
+      .catch(res => {
+        console.log(res);
+      });
+  }
+
   componentDidMount() {
     axios.get('triggers/all')
       .then(res => {
