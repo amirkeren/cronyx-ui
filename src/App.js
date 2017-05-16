@@ -59,17 +59,18 @@ class App extends Component {
     createTrigger(triggerType, triggerName, triggerGroup, jobName, jobGroup, jobData, cronExpression) {
       if (triggerType === 'Immediate') {
         createImmediateTriger(triggerName, triggerGroup, jobName, jobGroup, jobData).then(res => {
-            console.log(res);
+            alert('Trigger Created');
         }).catch(err => {
-            console.log(err);
+            alert(err);
         });
       } else {
         createCronTriger(triggerName, triggerGroup, jobName, jobGroup, jobData, cronExpression).then(res => {
-            console.log(res);
+            alert('Trigger Created');
         }).catch(err => {
-            console.log(err);
+            alert(err);
         });
       }
+      this.setState({ isCreateTrigger: false });
     }
 
     getActiveScreen() {
