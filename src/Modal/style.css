@@ -7,6 +7,9 @@
     overflow:hidden;
     transition:opacity .2s ease-out, transform 0s 0s;
     opacity:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .cronyx-modal:not(.active) {
@@ -24,19 +27,18 @@
 }
 
 .cronyx-modal .cronyx-modal-window {
-    position:absolute;
     background:#2c3438;
     max-height:70%;
-    max-width:65%;
-    margin:auto;
-    top:0; left:0; right:0; bottom:0;
+    max-width:60%;
+    min-width:600px;
     display:flex;
     flex-direction:column;
-    transition:top .2s ease-out;
+    transition:transform .2s ease-out;
+    z-index:1;
 }
 
 .cronyx-modal:not(.active) .cronyx-modal-window {
-    top:25%;
+    transform:translateY(25%);
 }
 
 .cronyx-modal .cronyx-modal-window > * {
@@ -53,10 +55,13 @@
 }
 
 .cronyx-modal .cronyx-modal-subtitle {
+    height:42px;
     font-size: 17px;
     text-align: left;
     color: #90b2be;
     padding:10px;
+    display:flex;
+    align-items:center;
 }
 
 .cronyx-modal .cronyx-modal-content {
