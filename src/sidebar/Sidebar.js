@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import triggerListInactiveIcon from '../../assets/svg/assets_History_2017-05-16/tab-icon-trigger-list.svg';
+import triggerListInactiveIcon from '../../assets/svg/assets_History_2017-05-16 2/tab-icon-trigger-list.svg';
 import historyInactiveIcon from '../../assets/svg/assets_triggerList_2017-05-16/tab-icon-history.svg';
 import triggerListActiveIcon from '../../assets/svg/assets_triggerList_2017-05-16/tab-icon-trigger-list-focus.svg';
-import historyActiveIcon from '../../assets/svg/assets_History_2017-05-16/tab-icon-history.svg';
+import historyActiveIcon from '../../assets/svg/assets_History_2017-05-16 2/tab-icon-history.svg';
 
 import SidebarButton from "./sidebarButton/sidebarButton";
 import './Sidebar.css';
