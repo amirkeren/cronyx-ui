@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import JSONTree from 'react-json-tree';
 import searchIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-search.svg';
-import playIcon   from '../../assets/svg/assets_triggerList_2017-05-16/ic-play.svg';
-import pauseIcon  from '../../assets/svg/assets_triggerList_2017-05-16/ic-pause.svg';
 import deleteIcon from '../../assets/svg/assets_triggerList_2017-05-16/ic-delete.svg';
 
 import moment from 'moment';
@@ -30,6 +28,7 @@ class Screen extends Component{
 
     this.state = {
       triggers: [],
+      currentDeleteTrigger: null,
       triggersCopy: []
     };
   }
@@ -64,15 +63,7 @@ class Screen extends Component{
       });
   }
 
-  deleteTrigger(trigger) {
-    axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
-      .then(res => {
-        console.log(res);
-      })
-      .catch(res => {
-        console.log(res);
-      });
-  }
+
 
   filterTriggers(refName, e) {
     const triggers = this.state.triggers;
@@ -81,7 +72,7 @@ class Screen extends Component{
     if (filterText) {
       triggersCopyObj = _.filter(triggers, function(o) {
         let triggerFullName = o.triggerKey.group + "." + o.triggerKey.name;
-        return triggerFullName.includes(filterText);
+        return triggerFullName.toLowerCase().includes(filterText.toLowerCase());
       });
     } else {
       triggersCopyObj = triggers;
@@ -92,8 +83,9 @@ class Screen extends Component{
   componentDidMount() {
     axios.get('triggers/all')
       .then(res => {
-        this.setState({triggers: res.data});
-        this.setState({triggersCopy: res.data});
+        const sortedTriggers = _.sortBy(res.data, ['triggerKey.group', 'triggerKey.name']);
+        this.setState({triggers: sortedTriggers});
+        this.setState({triggersCopy: sortedTriggers});
       });
   }
 
@@ -104,6 +96,45 @@ class Screen extends Component{
                 currentTrigger: trigger,
                 currentTriggerInfo: resp.data
             });
+        });
+    }
+
+    getDeleteModalSubtitle () {
+        if (this.state.currentDeleteTrigger) {
+            return `Are you sure you want to delete ${this.state.currentDeleteTrigger.triggerKey.group}.${this.state.currentDeleteTrigger.triggerKey.name} trigger?`;
+        }
+        return '';
+    }
+
+    getInfoModalSubtitle () {
+        if (this.state.currentTrigger) {
+            return `${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`;
+        }
+        return '';
+    }
+
+    openDeleteModal(trigger) {
+        const {name, group} = trigger.triggerKey;
+        triggerInfo(name, group).then(resp => {
+            this.setState({
+                currentDeleteTrigger: trigger
+            });
+        });
+    }
+
+    deleteTrigger() {
+        const trigger = this.state.currentDeleteTrigger;
+        axios.post('triggers/delete', querystring.stringify({ name: trigger.triggerKey.name, group: trigger.triggerKey.group }))
+        .then(res => {
+          let triggers = this.state.triggersCopy;
+          const deleteItem = this.state.currentDeleteTrigger;
+          const updateTriggers = triggers.filter(tr => tr.triggerKey.name !== deleteItem.triggerKey.name && tr.triggerKey.group !== deleteItem.triggerKey.group)
+          this.setState({ triggersCopy: updateTriggers });
+          //this.setState({ triggers: updateTriggers });
+          this.setState({ currentDeleteTrigger: null });
+        })
+        .catch(res => {
+          console.log(res);
         });
     }
 
@@ -133,7 +164,7 @@ class Screen extends Component{
                         {this.state.triggersCopy.map(trigger =>
                             <tr>
                                   <td className="large-cell name-cell" onClick={() => this.openInfoModal(trigger)}>
-                                    {`${trigger.triggerKey.name}.${trigger.triggerKey.group}`}
+                                    {`${trigger.triggerKey.group}.${trigger.triggerKey.name}`}
                                   </td>
                                   <td >
                                     {this.getDate(trigger.triggerData._PREVIOUS_FIRING_TIME)}
@@ -145,7 +176,7 @@ class Screen extends Component{
                                   <td >
                                       {trigger.triggerData._TRIGGER_STATUS === "ACTIVE" &&
                                         <div>
-                                          <Switch on='true' onClick={() => this.pauseTrigger(trigger)}/>
+                                          <Switch on={true} onClick={() => this.pauseTrigger(trigger)}/>
                                         </div>
                                       }
                                       {trigger.triggerData._TRIGGER_STATUS === "PAUSED" &&
@@ -155,7 +186,7 @@ class Screen extends Component{
                                       }
                                   </td>
                                   <td>
-                                      <img src={deleteIcon} alt="" className="delete-icon"/>
+                                      <img src={deleteIcon} alt="" className="delete-icon" onClick={() => this.openDeleteModal(trigger)}/>
                                   </td>
                             </tr>
                         )}
@@ -163,23 +194,39 @@ class Screen extends Component{
                     </tbody>
                 </table>
                 </div>
-                {this.state.currentTrigger ?
-                    <Modal title="Trigger Info"
-                            subtitle={`${this.state.currentTrigger.triggerKey.group}.${this.state.currentTrigger.triggerKey.name}`}
-                            buttons={[{
-                                text: "Close",
-                                primary: true,
-                                onClick: () => this.setState({ currentTrigger: null })
-                            }]}>
-                        <JSONTree data={this.state.currentTriggerInfo}
-                            theme={{tree: { backgroundColor: 'transparent' },
-                                label:{color: '#929292'},
-                                valueText:{color: '#929292'},
-                                itemRange:{color: '#929292'},
-                                arrowSign:{borderTopColor: '#929292'},
-                                nestedNodeItemString:{color: '#929292'}}}/>
-                    </Modal>
-                : null}
+                <Modal title="Trigger Info"
+                        subtitle={this.getInfoModalSubtitle()}
+                        active={!!this.state.currentTrigger}
+                        buttons={[{
+                            text: "Close",
+                            primary: true,
+                            onClick: () => this.setState({ currentTrigger: null })
+                        }]}>
+                    <JSONTree data={this.state.currentTriggerInfo || {}}
+                              theme={{tree: { backgroundColor: 'transparent' },
+                                  label:{color: '#929292'},
+                                  valueText:{color: '#929292'},
+                                  itemRange:{color: '#929292'},
+                                  arrowSign:{borderTopColor: '#929292'},
+                                  nestedNodeItemString:{color: '#929292'}}}/>
+                </Modal>
+
+                <Modal title="Delete Trigger"
+                        active={!!this.state.currentDeleteTrigger}
+                        subtitle={this.getDeleteModalSubtitle()}
+                        buttons={[
+                        {
+                            text: "Delete This Trigger",
+                            primary: true,
+                            onClick: () => this.deleteTrigger()
+                        },
+                        {
+                            text: "Cancel",
+                            onClick: () => this.setState({ currentDeleteTrigger:  null })
+                        }
+                        ]}>
+
+                </Modal>
             </div>
         );
     }
