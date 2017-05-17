@@ -24,10 +24,10 @@ class App extends Component {
             isCreateTrigger: false,
             jobs: [],
             selectedJob: "",
-            type: "",
-            triggerName: null,
-            parametersMap: null,
-            cronExpression: null
+            type: "Immediate",
+            triggerName: "",
+            parametersMap: "",
+            cronExpression: ""
         };
 
         this.handleTabClick = this.handleTabClick.bind(this);
@@ -98,12 +98,12 @@ class App extends Component {
                             <div className="form-group">
                                 <label className="form-check Trigger-Type">Trigger type:</label>
                                 <label className="form-check-label" htmlFor="immediate">
-                                    <input type="radio" onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="immediate" value="Immediate"/>
-                                    <span className="ml-20">Immediate</span>
+                                    <input type="radio" defaultChecked={true} onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="immediate" value="Immediate"/>
+                                <span>Immediate</span>
                                 </label>
-                                <label className="ml-20 form-check-label" htmlFor="cron">
+                                <label className="ml-10 form-check-label" htmlFor="cron">
                                     <input type="radio" onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="cron" value="Cron"/>
-                                    <span className="ml-20">Cron</span>
+                                <span>Cron</span>
                                 </label>
                             </div>
                             {this.state.type === "Cron" ?
@@ -133,7 +133,7 @@ class App extends Component {
     }
 
     createTrigger(triggerName, triggerType, jobName, jobData, cronExpression) {
-        if (triggerName === undefined || triggerName === null ||
+        if (triggerName === undefined || triggerName === null || triggerName === "" ||
           triggerName.split(".").length < 2 || triggerName.split(".").length > 3) {
           alert('Enter trigger name in the format <groupname>.<triggername> or <grouponame>.<triggername>.<mode>');
           return;
@@ -144,6 +144,11 @@ class App extends Component {
         }
         let jobDataJson = '{';
         for (var i = 0; i < jobDataArray.length; i++) {
+            debugger;
+            if (jobDataArray[i].split("=").length <= 1 || jobDataArray[i].split("=").length > 2) {
+              alert('Invalid data map');
+              return;
+            }
             let key = jobDataArray[i].split("=")[0];
             let value = jobDataArray[i].split("=")[1];
             jobDataJson += "\"" + key + "\": \"" + value + "\",";
@@ -158,7 +163,7 @@ class App extends Component {
         } else {
             triggerName = triggerName.split(".")[1] + "." + triggerName.split(".")[2];
         }
-        if (jobName === undefined || jobName === null) {
+        if (jobName === undefined || jobName === null || jobName.value === undefined || jobName.value === null) {
           alert('Select job');
           return;
         }
@@ -168,11 +173,12 @@ class App extends Component {
         if (triggerType === 'Immediate') {
             createImmediateTriger(triggerName, triggerGroup, jobName, jobGroup, jobDataJson).then(res => {
                 alert('Trigger created and started running');
+                location.reload();
             }).catch(err => {
                 alert(err);
             });
         } else {
-            if (cronExpression === undefined || cronExpression === null) {
+            if (cronExpression === undefined || cronExpression === null || cronExpression === "") {
               alert('Enter Cron expression');
               return;
             }
@@ -183,6 +189,7 @@ class App extends Component {
                 alert(err);
             });
         }
+        this.setState({selectedJob: "", type: "Immediate", triggerName: "", parametersMap: "", cronExpression: ""});
         this.setState({isCreateTrigger: false});
     }
 
