@@ -44,7 +44,7 @@ class App extends Component {
         this.screens = [ < Screen />, < HistoryScreen />
         ];
         getAllJobs().then(res => {
-          let jobsResult = res.data.map(j => j.key.group + "." + j.key.name);
+          const jobsResult = res.data.map(j => j.key.group + "." + j.key.name);
           const sortedJobs = _.sortBy(jobsResult, [function(o) { return o; }]);
           this.setState({ jobs: sortedJobs})
         });
