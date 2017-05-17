@@ -45,8 +45,8 @@ class Screen extends Component{
         item.triggerData._TRIGGER_STATUS = "PAUSED";
         this.setState({ triggers });
       })
-      .catch(res => {
-        console.log("error: " + res);
+      .catch(err => {
+        alert(err);
       });
   }
 
@@ -58,8 +58,8 @@ class Screen extends Component{
         item.triggerData._TRIGGER_STATUS = "ACTIVE";
         this.setState({ triggers });
       })
-      .catch(res => {
-        console.log(res);
+      .catch(err => {
+        alert(err);
       });
   }
 
@@ -86,6 +86,8 @@ class Screen extends Component{
         const sortedTriggers = _.sortBy(res.data, ['triggerKey.group', 'triggerKey.name']);
         this.setState({triggers: sortedTriggers});
         this.setState({triggersCopy: sortedTriggers});
+      }).catch(err => {
+        alert(err);
       });
   }
 
@@ -96,6 +98,8 @@ class Screen extends Component{
                 currentTrigger: trigger,
                 currentTriggerInfo: resp.data
             });
+        }).catch(err => {
+          alert(err);
         });
     }
 
@@ -119,7 +123,9 @@ class Screen extends Component{
             this.setState({
                 currentDeleteTrigger: trigger
             });
-        });
+        }).catch(err => {
+          alert(err);
+        })
     }
 
     deleteTrigger() {
@@ -134,9 +140,8 @@ class Screen extends Component{
           this.setState({ triggers: triggers });
           this.refs.filterTriggersInput.value = "";
           this.setState({ currentDeleteTrigger: null });
-        })
-        .catch(res => {
-          console.log(res);
+        }).catch(err => {
+          alert(err);
         });
     }
 

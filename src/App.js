@@ -47,6 +47,8 @@ class App extends Component {
           const jobsResult = res.data.map(j => j.key.group + "." + j.key.name);
           const sortedJobs = _.sortBy(jobsResult, [function(o) { return o; }]);
           this.setState({ jobs: sortedJobs})
+        }).catch(err => {
+          alert(err);
         });
 
         this.onSelection = this.onSelection.bind(this);
@@ -90,36 +92,33 @@ class App extends Component {
                     ]}>
                         <div className="form-group">
                             <div className="form-group">
-                                <label for="jobname" className="Job-name">Job name:</label>
-
+                                <label htmlFor="jobname" className="Job-name">Job name:</label>
                                 <Dropdown options={this.state.jobs} id="jobname" onChange={this.onSelection} value={this.state.selectedJob} placeholder="Select job name"/>
                             </div>
                             <div className="form-group">
                                 <label className="form-check Trigger-Type">Trigger type:</label>
-                                <label className="form-check-label" for="immediate">
+                                <label className="form-check-label" htmlFor="immediate">
                                     <input type="radio" onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="immediate" value="Immediate"/>
                                     <span className="ml-20">Immediate</span>
                                 </label>
-
-                                <label className="ml-20 form-check-label" for="cron">
+                                <label className="ml-20 form-check-label" htmlFor="cron">
                                     <input type="radio" onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="cron" value="Cron"/>
                                     <span className="ml-20">Cron</span>
                                 </label>
-
                             </div>
                             {this.state.type === "Cron" ?
                                 <div className="form-group">
-                                    <label for="cronExpression" className="Trigger-name">Cron expression:</label>
+                                    <label htmlFor="cronExpression" className="Trigger-name">Cron expression:</label>
                                 <input type="text" onChange={this.onCronExpressionChange} className="Rectangle-2 form-control" id="cronExpression"/>
                                 </div>
                             : null
                             }
                             <div className="form-group">
-                                <label for="triggername" className="Trigger-name">Trigger name:</label>
+                                <label htmlFor="triggername" className="Trigger-name">Trigger name:</label>
                             <input type="text" onChange={this.onTriggerNameChange} className="Rectangle-2 form-control" id="triggername"/>
                             </div>
                             <div className="form-group">
-                                <label for="parametermap" className="Parameter-map">Parameter map:</label>
+                                <label htmlFor="parametermap" className="Parameter-map">Parameter map:</label>
                             <textarea onChange={this.onPramatersChange} className="form-control Rectangle-3" id="parametermap" rows="5"/>
                             </div>
                         </div>
@@ -147,14 +146,14 @@ class App extends Component {
         for (var i = 0; i < jobDataArray.length; i++) {
             let key = jobDataArray[i].split("=")[0];
             let value = jobDataArray[i].split("=")[1];
-            jobDataJson += "\"" + key + "\": " + "\"" + value + "\",";
+            jobDataJson += "\"" + key + "\": \"" + value + "\",";
         }
         if (jobDataArray.length > 0) {
             jobDataJson = jobDataJson.substring(0, jobDataJson.length - 1);
         }
         jobDataJson += '}';
         let triggerGroup = triggerName.split(".")[0];
-        if (triggerName.split(".").length == 2) {
+        if (triggerName.split(".").length === 2) {
             triggerName = triggerName.split(".")[1];
         } else {
             triggerName = triggerName.split(".")[1] + "." + triggerName.split(".")[2];
