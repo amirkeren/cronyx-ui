@@ -5,8 +5,8 @@
 }
 
 .CreateTriggerButton {
-    width: 138px;
-    height: 32px;
+    width: calc(100%/12);
+    /*height: 32px;*/
     color: #ffffff;
     background-color: #ff9600;
     border-radius: 4px;
@@ -15,6 +15,6 @@
     align-items: center;
     position: fixed;
     bottom: 31px;
-    margin-left: 38px;
+    margin-left: calc(100%/24);
     cursor: pointer;
 }
