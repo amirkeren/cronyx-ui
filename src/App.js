@@ -168,8 +168,7 @@ class App extends Component {
         jobName = jobName.split(".")[1];
         if (triggerType === 'Immediate') {
             createImmediateTriger(triggerName, triggerGroup, jobName, jobGroup, jobDataJson).then(res => {
-                alert('Trigger Created');
-                location.reload();
+                alert('Trigger created and started running');
             }).catch(err => {
                 alert(err);
             });
@@ -179,9 +178,8 @@ class App extends Component {
               return;
             }
             createCronTriger(triggerName, triggerGroup, jobName, jobGroup, jobDataJson, cronExpression).then(res => {
-                alert('Trigger Created');
+                alert('Trigger created');
                 location.reload();
-
             }).catch(err => {
                 alert(err);
             });
