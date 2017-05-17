@@ -47,3 +47,7 @@ div.switch.on {
 .name-cell {
     cursor:pointer;
 }
+
+.delete-icon {
+    cursor: pointer;
+}

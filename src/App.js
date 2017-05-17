@@ -97,12 +97,12 @@ class App extends Component {
                                 <label className="form-check Trigger-Type">Trigger type:</label>
                                 <label className="form-check-label" for="immediate">
                                     <input type="radio" onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="immediate" value="Immediate"/>
-                                    <span className="ml-20">Immediate</span>
+                                <span>Immediate</span>
                                 </label>
 
-                                <label className="ml-20 form-check-label" for="cron">
+                                <label className="ml-10 form-check-label" for="cron">
                                     <input type="radio" onChange={this.onTypeChange} className="form-check-input p-10" name="trigger-type" id="cron" value="Cron"/>
-                                    <span className="ml-20">Cron</span>
+                                <span>Cron</span>
                                 </label>
 
                             </div>
