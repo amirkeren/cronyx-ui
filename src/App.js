@@ -134,19 +134,25 @@ class App extends Component {
     }
 
     createTrigger(triggerName, triggerType, jobName, jobData, cronExpression) {
-
-        let jobDataArray = jobData.split('\n');
+        if (triggerName === undefined || triggerName === null ||
+          triggerName.split(".").length < 2 || triggerName.split(".").length > 3) {
+          alert('Enter trigger name in the format <groupname>.<triggername> or <grouponame>.<triggername>.<mode>');
+          return;
+        }
+        let jobDataArray = [];
+        if (jobData) {
+          jobDataArray = jobData.split('\n');
+        }
         let jobDataJson = '{';
         for (var i = 0; i < jobDataArray.length; i++) {
             let key = jobDataArray[i].split("=")[0];
             let value = jobDataArray[i].split("=")[1];
             jobDataJson += "\"" + key + "\": " + "\"" + value + "\",";
         }
-        if (jobData.length == 0) {
-            jobDataJson = '{}';
-        } else {
-            jobDataJson = jobDataJson.substring(0, jobDataJson.length - 1) + '}';
+        if (jobDataArray.length > 0) {
+            jobDataJson = jobDataJson.substring(0, jobDataJson.length - 1);
         }
+        jobDataJson += '}';
         let triggerGroup = triggerName.split(".")[0];
         if (triggerName.split(".").length == 2) {
             triggerName = triggerName.split(".")[1];
@@ -173,7 +179,6 @@ class App extends Component {
             });
         }
         this.setState({isCreateTrigger: false});
-
     }
 
     getActiveScreen() {
