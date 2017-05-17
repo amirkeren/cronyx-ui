@@ -159,6 +159,10 @@ class App extends Component {
         } else {
             triggerName = triggerName.split(".")[1] + "." + triggerName.split(".")[2];
         }
+        if (jobName === undefined || jobName === null) {
+          alert('Select job');
+          return;
+        }
         jobName = jobName.value;
         let jobGroup = jobName.split(".")[0];
         jobName = jobName.split(".")[1];
@@ -170,6 +174,10 @@ class App extends Component {
                 alert(err);
             });
         } else {
+            if (cronExpression === undefined || cronExpression === null) {
+              alert('Enter Cron expression');
+              return;
+            }
             createCronTriger(triggerName, triggerGroup, jobName, jobGroup, jobDataJson, cronExpression).then(res => {
                 alert('Trigger Created');
                 location.reload();
