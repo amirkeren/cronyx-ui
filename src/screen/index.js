@@ -15,11 +15,6 @@ import axios from 'axios';
 import _ from 'lodash';
 var querystring = require('querystring');
 
-
-axios.defaults.baseURL = 'manage/scheduling/';
-
-
-
 class Screen extends Component{
   constructor() {
     super();
