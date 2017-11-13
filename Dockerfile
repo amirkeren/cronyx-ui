@@ -5,6 +5,5 @@ RUN git clone https://github.com/amirkeren/cronyx-ui /cronyx-ui/
 WORKDIR /cronyx-ui
 RUN npm install
 EXPOSE 3000
-COPY setproxy.sh /setproxy.sh
-ENTRYPOINT ["/setproxy.sh"]
+ENTRYPOINT ["/cronyx-ui/setproxy.sh"]
 CMD ["npm", "start"]
